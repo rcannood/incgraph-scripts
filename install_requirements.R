@@ -14,3 +14,6 @@ conf <- PRISM::create_qsub_config(
   remote_tmp_path = "/home/yourusername/.r2gridengine"
 )
 PRISM::set_default_qsub_config(conf)
+
+# Finally, you should uncompress the zip files at
+# data/genie3/expression/*.7z
