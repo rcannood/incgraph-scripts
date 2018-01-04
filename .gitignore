@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+*.RData
+.Ruserdata
+data_tmp
+plots
+data/genie3/expression/ecoli
+data/genie3/expression/yeast
