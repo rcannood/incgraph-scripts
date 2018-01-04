@@ -12,7 +12,7 @@ library(cowplot)
 out.folder <- "data/genie3"
 scratch.folder <- "data_tmp/genie3"
 
-source("genie3_h_methods.R")
+source("scripts/genie3_h_methods.R")
 
 # define redundancy vectors
 redundant.edges <- c(0, 0, 1, 0, 0, 1, 1, 2, 3, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6)

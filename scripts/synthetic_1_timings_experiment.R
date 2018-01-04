@@ -8,7 +8,7 @@ scratch.folder <- "data_tmp/synthetic"
 plots.folder <- "plots/synthetic"
 
 load(paste0(out.folder, "/synth_networks.RData"))
-source("synthetic_h_delta_functions.R")
+source("scripts/synthetic_h_delta_functions.R")
 
 timeout <- 60
 

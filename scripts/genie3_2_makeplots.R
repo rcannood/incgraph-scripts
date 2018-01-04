@@ -11,7 +11,7 @@ plots.folder <- "plots/genie3"
 
 load(file = paste0(out.folder, "/datasets.RData"))
 load(file = paste0(out.folder, "/outs_parallel.RData"))
-source("genie3_h_methods.R")
+source("scripts/genie3_h_methods.R")
 
 organism.map <- c("ecoli"="E. coli", "yeast"="S. cerevisiae")
 
