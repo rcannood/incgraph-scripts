@@ -22,14 +22,12 @@ qsub.out <- qsub_lapply(
     list2env(prm, globalenv())
 
     out <- dplyr::bind_rows(lapply(delta.functions, function(dfun) {
-      cat("Running ", dfun$name, ", ", paste(paste0(names(prm), ": ", prm), collapse=", "), "\n", sep="")
       state <- dfun$init(num.nodes, as.matrix(net$network))
 
       start <- Sys.time()
       time.diff <- as.numeric(Sys.time() - start, units = "secs")
       j <- 0
       while(j < nrow(net$operations) && time.diff <= timeout) {
-        cat(j, "\n", sep="")
         j <- j + 1
         state <- dfun$calc.delta(state, net$operations[j,-1], T)$state
         time.diff <- as.numeric(Sys.time() - start, units = "secs")
