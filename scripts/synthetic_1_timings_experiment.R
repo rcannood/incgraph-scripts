@@ -14,7 +14,7 @@ timeout <- 60
 
 qsub.out <- qsub_lapply(
   X = seq_along(networks),
-  qsub_config = override_qsub_config(num_cores = 8, wait = F, remove_tmp_folder = F, stop_on_error = ),
+  qsub_config = override_qsub_config(num_cores = 8, wait = F, remove_tmp_folder = F, stop_on_error = F),
   qsub_environment = c("dplyr", "incgraph"),
   FUN = function(i) {
     net <- networks[[i]]
