@@ -44,3 +44,30 @@ save.image(file = paste0(scratch.folder, "/synth_networks_timings.RData"))
 load(file = paste0(scratch.folder, "/synth_networks_timings.RData"))
 outs <- qsub_retrieve(qsub.out)
 save.image(file = paste0(out.folder, "/synth_networks_timings.RData"))
+
+
+outs <- pbapply::pblapply(
+  X = seq_along(networks),
+  # cl = 8,
+  FUN = function(i) {
+    net <- networks[[i]]
+    prm <- params[i,]
+    list2env(prm, globalenv())
+    
+    out <- dplyr::bind_rows(lapply(delta.functions, function(dfun) {
+      state <- dfun$init(num.nodes, as.matrix(net$network))
+      
+      start <- Sys.time()
+      time.diff <- as.numeric(Sys.time() - start, units = "secs")
+      j <- 0
+      while(j < nrow(net$operations) && time.diff <= timeout) {
+        j <- j + 1
+        state <- dfun$calc.delta(state, net$operations[j,-1], T)$state
+        time.diff <- as.numeric(Sys.time() - start, units = "secs")
+      }
+      
+      data.frame(method = dfun$name, prm, num.executed = j, time.diff)
+    }))
+    out
+  })
+save.image(file = paste0(out.folder, "/synth_networks_timings_laptop.RData"))

@@ -43,7 +43,7 @@ params <- do.call(expand.grid, c(const.param, list(dataset = seq_along(datasets)
 
 qsub <- qsub_lapply(
   X = seq_len(nrow(params)),
-  qsub_config = override_qsub_config(name = "IncGraph", num_cores = 24, wait = F, remove_tmp_folder = F, stop_on_error = F),
+  qsub_config = override_qsub_config(name = "IncGraph", num_cores = 24, wait = F, remove_tmp_folder = F, stop_on_error = F, max_wall_time = NULL),
   qsub_packages = c("GENIE3", "dplyr", "tidyr", "incgraph"),
   FUN = function(i) {
     param <- params[i,]
@@ -66,7 +66,7 @@ qsub <- qsub_lapply(
     undirected.links2 <- undirected.links
     comparisons <- list()
 
-    eval.first <- GENIE3::evaluate.ranking.direct(undirected.links$value, undirected.links$gold)
+    eval.first <- GENIE3::evaluate_ranking_direct(undirected.links$value, undirected.links$gold, sum(undirected.links$gold), nrow(undirected.links))
     comparisons[[1]] <- list(ranking = undirected.links, evaluation = eval.first, total.time = 0, individual.times = 0)
 
     time.start1 <- Sys.time()
@@ -135,7 +135,7 @@ qsub <- qsub_lapply(
     ix <- c(output.df$link, setdiff(seq_len(nrow(undirected.links2)), output.df$link))
     undirected.links2 <- undirected.links2[ix,]
 
-    eval <- GENIE3::evaluate.ranking.direct(-seq_len(nrow(undirected.links2)), undirected.links2$gold)
+    eval <- GENIE3::evaluate_ranking_direct(-seq_len(nrow(undirected.links2)), undirected.links2$gold, sum(undirected.links2$gold), nrow(undirected.links2))
 
     time.stop1 <- Sys.time()
     time.diff1 <- as.numeric(time.stop1 - time.start1, units = "secs")
